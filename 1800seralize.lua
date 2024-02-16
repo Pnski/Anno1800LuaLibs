@@ -83,12 +83,16 @@ local function TableToString(_table)
     return
   end
   -- convert every array or metatable to array (pairs might fail if C-API call is blocked)
-  for k,v in pairs(getkvtable(_table)) do
-    if type(_table[k]) == 'table' then
-      getDeepTable(_table[k], indent + 1)
+  for k,v in pairs(getkvtable(_table)) do --getkvtable to cycle through
+    if type(_table[k]) == 'table' then -- use the original table for direct values
+      _string = _string..TableToString(_table[k])
     else
-      _string = _string..ValueToString(k).."="..ValueToString(v)..","
+      _string = _string..IndexToString(k).."="..ValueToString(v)..","
     end
   end
   return _string
+end
+
+local function StringToTable(_string)
+  return loadstring(_string)
 end
