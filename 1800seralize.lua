@@ -27,37 +27,44 @@ end
   user giving functions or threads is a stupid idea
   userdata is normally from c, no need to test
 ]]
-local function ValueToString(_value)
+function ValueToString(_value)
   if type(_value) == 'nil' then
     return "nil"
   elseif type(_value) == 'number' then
     return _value
   elseif type(_value) == 'string' then
-    return "\"".._value.."\""
+    return "\'".._value.."\'"
   elseif type(_value) == 'boolean' then
     if _value then --easier to check and return the boolean number back than true/false which might be a string
       return 1
     else
       return 0
     end
+  elseif type(_value) == 'function' then
+    print("debug: ")
+    local _dump = debug.getinfo(_value)
+    for k,v in pairs(_dump) do print(k,v) end
+    print("hex: ",StringToHex(string.dump(_value,true)))
+    print("string: ",HexToString(StringToHex(string.dump(_value,true))))
+    return string.dump(_value,true)
   else --failsafe
-    print("plz check your code bro")
-    return
+    print("plz check your code bro value:", type(_value))
+    return 0
   end
 end
 
-local function IndexToString(_index)
+function IndexToString(_index)
   if type(_index) == 'number' then
     return "[".._index.."]"
   elseif type(_index) == 'string' then
-    return "[\"".._index.."\"]"
+    return "[\'".._index.."\']"
   else --failsafe
-    print("plz check your code bro")
+    print("plz check your code bro index:",type(_index))
     return
   end
 end
 
-local function TableToString(_table)
+function TableToString(_table)
   local _string = "{"
   if type(_table) ~= 'table' then
     return
@@ -81,10 +88,37 @@ local function TableToHex(_table)
 end
 
 local function HexToTable(_string)
-  return loadstring(HexToString(_string))
+  print(type(_string)," type string")
+  print("mystring= ",_string)
+  local _ioTable = load("return "..HexToString(_string),nil,"bt",_ioTable)()
+  print(type(_ioTable)," _ioTable", _ioTable)
+  print(HexToString(_string))
+  for k,v in pairs(_ioTable) do print(k,v) end
+  return _ioTable
 end
 
 a1800 = {
   HexToTable = HexToTable,
   TableToHex = TableToHex
 }
+
+_testtable = {
+  ["SerpsMod1"] = {
+    ["Islands"] = false,
+    ["Civilians"] = 200,
+    ["MyFunction1"] = load(function () print("Hello World!") end)
+  },
+  ["TaubesMod55"] = {
+    "Enabled", "Printeverything", ["Islands"] = {"KingIsland","CrownFalls"}
+  }
+}
+print("Lua Version: ",_VERSION,", 1800serialize loaded")
+for k,v in pairs(_testtable) do print(k,v) end --functional
+print(TableToString(_testtable)) --functional
+print(TableToHex(_testtable)) --functional
+print("tabletohex works")
+print(HexToString(TableToHex(_testtable))) --functional
+_mytable = HexToTable(TableToHex(_testtable)) --functional
+print(TableToString(_mytable)) --functional
+for k,v in pairs(_mytable) do print(k,v) end --functional
+--print(string.dump(function() return _testtable end))
