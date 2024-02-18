@@ -35,6 +35,6 @@ a1800 = {
 
 --test
 --print(AreaToID(1,nil,1))
-print(IDToArea(8514))
-print(toOID(32,8514))
-print(toOID(32,2,5,2))
+--print(IDToArea(8514))
+--print(toOID(32,8514))
+--print(toOID(32,2,5,2))
