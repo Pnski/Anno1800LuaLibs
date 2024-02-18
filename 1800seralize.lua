@@ -40,16 +40,9 @@ function ValueToString(_value)
     else
       return 0
     end
-  elseif type(_value) == 'function' then
-    print("debug: ")
-    local _dump = debug.getinfo(_value)
-    for k,v in pairs(_dump) do print(k,v) end
-    print("hex: ",StringToHex(string.dump(_value,true)))
-    print("string: ",HexToString(StringToHex(string.dump(_value,true))))
-    return string.dump(_value,true)
   else --failsafe
     print("plz check your code bro value:", type(_value))
-    return 0
+    return 'nil'
   end
 end
 
@@ -60,7 +53,7 @@ function IndexToString(_index)
     return "[\'".._index.."\']"
   else --failsafe
     print("plz check your code bro index:",type(_index))
-    return
+    return 'nil'
   end
 end
 
@@ -102,23 +95,28 @@ a1800 = {
   TableToHex = TableToHex
 }
 
+function test()
+  print("Hello World!")
+end
+
 _testtable = {
   ["SerpsMod1"] = {
     ["Islands"] = false,
     ["Civilians"] = 200,
-    ["MyFunction1"] = load(function () print("Hello World!") end)
+    ["MyFunction1"] = test
   },
   ["TaubesMod55"] = {
     "Enabled", "Printeverything", ["Islands"] = {"KingIsland","CrownFalls"}
   }
 }
 print("Lua Version: ",_VERSION,", 1800serialize loaded")
-for k,v in pairs(_testtable) do print(k,v) end --functional
+--[[for k,v in pairs(_testtable) do print(k,v) end --functional
 print(TableToString(_testtable)) --functional
 print(TableToHex(_testtable)) --functional
 print("tabletohex works")
 print(HexToString(TableToHex(_testtable))) --functional
 _mytable = HexToTable(TableToHex(_testtable)) --functional
 print(TableToString(_mytable)) --functional
-for k,v in pairs(_mytable) do print(k,v) end --functional
---print(string.dump(function() return _testtable end))
+for k,v in pairs(_mytable) do print(k,v) end]] --functional
+--print(load(string.dump(function() print("Hello World!") end))())
+print(debug.getupvalue(test,1))-- do print(k,v) end
