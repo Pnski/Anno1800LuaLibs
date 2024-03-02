@@ -28,9 +28,7 @@ end
   userdata is normally from c, no need to test
 ]]
 function ValueToString(_value)
-  if type(_value) == 'nil' then
-    return "nil"
-  elseif type(_value) == 'number' then
+  if type(_value) == 'number' then
     return _value
   elseif type(_value) == 'string' then
     return "\'".._value.."\'"
