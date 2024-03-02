@@ -95,7 +95,7 @@ a1800 = {
   TableToHex = TableToHex
 }
 
-function test()
+--[[function test()
   print("Hello World!")
 end
 
@@ -110,13 +110,13 @@ _testtable = {
   }
 }
 print("Lua Version: ",_VERSION,", 1800serialize loaded")
---[[for k,v in pairs(_testtable) do print(k,v) end --functional
+for k,v in pairs(_testtable) do print(k,v) end --functional
 print(TableToString(_testtable)) --functional
 print(TableToHex(_testtable)) --functional
 print("tabletohex works")
 print(HexToString(TableToHex(_testtable))) --functional
 _mytable = HexToTable(TableToHex(_testtable)) --functional
 print(TableToString(_mytable)) --functional
-for k,v in pairs(_mytable) do print(k,v) end]] --functional
+for k,v in pairs(_mytable) do print(k,v) end --functional
 --print(load(string.dump(function() print("Hello World!") end))())
-print(debug.getupvalue(test,1))-- do print(k,v) end
+print(debug.getupvalue(test,1))-- do print(k,v) end]]
