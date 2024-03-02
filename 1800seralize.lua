@@ -36,9 +36,9 @@ function ValueToString(_value)
     return "\'".._value.."\'"
   elseif type(_value) == 'boolean' then
     if _value then --easier to check and return the boolean number back than true/false which might be a string
-      return 1
+      return 'true'
     else
-      return 0
+      return 'false'
     end
   else --failsafe
     print("plz check your code bro value:", type(_value))
